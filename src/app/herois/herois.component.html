@@ -1,13 +1,20 @@
 <h2>Meus Heróis</h2>
+<div>
+  <label>Nome do Herói:
+    <input #nomeHeroi />
+  </label>
+  <!-- (click) passa o valor do input para adicionar() e depois limpa o input -->
+  <button (click)="adicionar(nomeHeroi.value); nomeHeroi.value=''">
+    Adicionar
+  </button>
+</div>
+
 <ul class="herois">
-  <li *ngFor="let heroi of herois" 
-      [class.selected]="heroi===heroiSelecionado"
-      (click)="onSelect(heroi)">
-    <span class="badge">{{heroi.id}}</span> {{heroi.nome}}
+  <li *ngFor="let heroi of herois">
+    <a routerLink="/detalhe/{{heroi.id}}">
+      <span class="badge">{{heroi.id}}</span> {{heroi.nome}}
+    </a>
+    <button class="delete" title="Remove Herói"
+      (click)="remover(heroi)">x</button>
   </li>
 </ul>
-
-<app-heroi-detalhe [heroi]="heroiSelecionado"></app-heroi-detalhe>
-
-
-

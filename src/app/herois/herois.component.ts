@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Heroi } from './heroi';
-import { HEROIS } from '../mock-herois';
 import { HeroiService } from '../heroi.service';
 
 @Component({
@@ -12,12 +11,6 @@ export class HeroisComponent implements OnInit {
 
   herois: Heroi[];
 
-  heroiSelecionado: Heroi;
- 
-  onSelect(heroi : Heroi): void {
-    this.heroiSelecionado = heroi;
-}
-
   constructor(private heroiService: HeroiService) { }
 
   ngOnInit() {
@@ -28,5 +21,20 @@ export class HeroisComponent implements OnInit {
     this.heroiService.getHerois()
       .subscribe(herois => this.herois = herois);
   }
+
+  adicionar(nome: string): void {
+    nome = nome.trim();
+    if (!nome) { return; }
+    this.heroiService.adicionaHeroi({ nome } as Heroi)
+      .subscribe(heroi => {
+        this.herois.push(heroi);
+      });
+  }
+
+  remover(heroi: Heroi): void {
+    this.herois = this.herois.filter(h => h !== heroi);
+    this.heroiService.removeHeroi(heroi).subscribe();
+  }
+
 
 }
